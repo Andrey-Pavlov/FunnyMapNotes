@@ -1,0 +1,11 @@
+{
+  "vendor": {
+    "js": "/FunnyMapNotes/vendor.70364627f661215f6fe9.bundle.js"
+  },
+  "main": {
+    "js": "/FunnyMapNotes/main.90682f336e2cf643d68a.bundle.js"
+  },
+  "polyfills": {
+    "js": "/FunnyMapNotes/polyfills.2bb9fd3f5f96d5d1d642.bundle.js"
+  }
+}
