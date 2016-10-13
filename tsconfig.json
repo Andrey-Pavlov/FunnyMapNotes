@@ -20,11 +20,13 @@
       "hammerjs",
       "jasmine",
       "node",
-      "protractor",
       "selenium-webdriver",
       "source-map",
       "uglify-js",
-      "webpack"
+      "webpack",
+      "jquery",
+      "lodash",
+      "leaflet"
     ]
   },
   "exclude": [

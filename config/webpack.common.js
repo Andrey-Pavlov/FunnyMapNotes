@@ -14,8 +14,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
-const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin'); 
-
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+var precss = require('precss');
+var autoprefixer = require('autoprefixer');
 /*
  * Webpack Constants
  */
@@ -31,10 +32,11 @@ const METADATA = {
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = function(options) {
+module.exports = function (options) {
+  // this is inside module.exports object
   isProd = options.env === 'production';
   return {
-
+    postcss: function () { return [precss, autoprefixer]; },
     /*
      * Static metadata for index.html
      *
@@ -49,7 +51,7 @@ module.exports = function(options) {
      *
      * See: http://webpack.github.io/docs/configuration.html#cache
      */
-     //cache: false,
+    //cache: false,
 
     /*
      * The entry point for the bundle
@@ -60,8 +62,8 @@ module.exports = function(options) {
     entry: {
 
       'polyfills': './src/polyfills.browser.ts',
-      'vendor':    './src/vendor.browser.ts',
-      'main':      './src/main.browser.ts'
+      'vendor': './src/vendor.browser.ts',
+      'main': './src/main.browser.ts'
 
     },
 
@@ -169,9 +171,20 @@ module.exports = function(options) {
         },
 
         /* File loader for supporting images, for example, in CSS files.
-        */
+         */
         {
           test: /\.(jpg|png|gif)$/,
+          loader: 'file'
+        },
+        { test: /\.scss$/, loaders: ['to-string-loader', 'css', 'postcss', 'sass'] },
+        {
+          test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          // Limiting the size of the woff fonts breaks font-awesome ONLY for the extract text plugin
+          // loader: "url?limit=10000"
+          loader: "url"
+        },
+        {
+          test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
           loader: 'file'
         }
       ],
@@ -223,7 +236,7 @@ module.exports = function(options) {
       /**
        * Plugin: ContextReplacementPlugin
        * Description: Provides context to Angular's use of System.import
-       * 
+       *
        * See: https://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin
        * See: https://github.com/angular/angular/issues/11580
        */
@@ -250,10 +263,10 @@ module.exports = function(options) {
           'robots.txt'
         ]
       }),
-      new CopyWebpackPlugin([{ 
+      new CopyWebpackPlugin([{
         from: 'src/assets/robots.txt'
-      }, { 
-        from: 'src/assets/humans.txt' 
+      }, {
+        from: 'src/assets/humans.txt'
       }]),
 
       /*
@@ -295,6 +308,25 @@ module.exports = function(options) {
         headTags: require('./head-config.common')
       }),
 
+      new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery",
+        Tether: "tether",
+        "window.Tether": "tether",
+        L: 'leaflet',
+        Tooltip: "exports?Tooltip!bootstrap/js/dist/tooltip",
+        Alert: "exports?Alert!bootstrap/js/dist/alert",
+        Button: "exports?Button!bootstrap/js/dist/button",
+        Carousel: "exports?Carousel!bootstrap/js/dist/carousel",
+        Collapse: "exports?Collapse!bootstrap/js/dist/collapse",
+        Dropdown: "exports?Dropdown!bootstrap/js/dist/dropdown",
+        Modal: "exports?Modal!bootstrap/js/dist/modal",
+        Popover: "exports?Popover!bootstrap/js/dist/popover",
+        Scrollspy: "exports?Scrollspy!bootstrap/js/dist/scrollspy",
+        Tab: "exports?Tab!bootstrap/js/dist/tab",
+        Util: "exports?Util!bootstrap/js/dist/util",
+      })
     ],
 
     /*

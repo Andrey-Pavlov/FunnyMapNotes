@@ -18,6 +18,11 @@ import { Home } from './home';
 import { About } from './about';
 import { NoContent } from './no-content';
 import { XLarge } from './home/x-large';
+import { MapService } from './shared/services/map.service';
+import { GeocodingService } from './shared/services/geocoding.service';
+import { NavigatorComponent } from './navigator/navigator.component';
+import { MarkerComponent } from './marker/marker.component';
+import { MapComponent } from './map/map.component';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -41,7 +46,10 @@ type StoreType = {
     About,
     Home,
     NoContent,
-    XLarge
+    XLarge,
+    NavigatorComponent,
+    MarkerComponent,
+    MapComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -51,7 +59,9 @@ type StoreType = {
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+    MapService,
+    GeocodingService
   ]
 })
 export class AppModule {

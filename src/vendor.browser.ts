@@ -21,6 +21,14 @@ import '@angularclass/hmr';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
+//
+//
+import 'bootstrap-loader';
+import 'font-awesome-loader';
+import 'lodash';
+import 'jquery';
+import 'leaflet';
+
 if ('production' === ENV) {
   // Production
 

@@ -1,0 +1,19 @@
+.on-map {
+  position: absolute;
+  z-index: 500;
+  padding: 0;
+}
+
+@mixin map-button() {
+  width: 35px;
+  height: 35px;
+}
+
+
+.leaflet-clickable {
+  cursor: crosshair !important;
+}
+
+.leaflet-container {
+  cursor: help !important;
+}

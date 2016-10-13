@@ -1,0 +1,11 @@
+@import '../shared/styles/main.scss';
+
+#add-marker {
+  margin: 20px 0 0 370px;
+  @include map-button();
+}
+
+#remove-marker {
+  margin: 20px 0 0 410px;
+  @include map-button();
+}
