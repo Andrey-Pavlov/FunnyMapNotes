@@ -3,16 +3,6 @@ const execSync = require('child_process').execSync;
 
 const REPO_NAME_RE = /Push {2}URL: https:\/\/github\.com\/.*\/(.*)\.git/;
 
-function getWebpackConfigModule() {
-  if (helpers.hasProcessFlag('github-dev')) {
-    return require('../webpack.dev.js');
-  } else if (helpers.hasProcessFlag('github-prod')) {
-    return require('../webpack.prod.js');
-  } else {
-    throw new Error('Invalid compile option.');
-  }
-}
-
 function getRepoName(remoteName) {
   remoteName = remoteName || 'origin';
 
@@ -54,6 +44,5 @@ function safeUrl(url) {
   return stripped ? stripped + '/' : '';
 }
 
-exports.getWebpackConfigModule = getWebpackConfigModule;
 exports.getRepoName = getRepoName;
 exports.safeUrl = safeUrl;
