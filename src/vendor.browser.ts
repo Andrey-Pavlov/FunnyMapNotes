@@ -22,12 +22,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
 //
-//
 import 'bootstrap-loader';
 import 'font-awesome-loader';
 import 'lodash';
 import 'jquery';
 import 'leaflet';
+import 'leaflet.markercluster';
+require('./libs/leaflet/plugins/photos/Leaflet.Photo.js');
 
 if ('production' === ENV) {
   // Production

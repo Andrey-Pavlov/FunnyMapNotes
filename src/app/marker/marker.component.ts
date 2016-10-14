@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { MapService } from '../shared/services/map.service';
+import { GooglePlacesService } from '../shared/services/google-places.service';
+import { LeafletPhotoPlugin } from '../shared/interfaces/leaflet-photos/leaflet-photo-plugin.interface';
 
 @Component({
   selector: 'marker',
@@ -14,7 +16,7 @@ export class MarkerComponent {
   removing: boolean;
   markerCount: number;
 
-  constructor(private mapService: MapService) {
+  constructor(private mapService: MapService, private leafletService: GooglePlacesService) {
     this.editing = false;
     this.removing = false;
     this.markerCount = 0;
@@ -50,6 +52,50 @@ export class MarkerComponent {
           }
         });
       }
+
+      let self = this;
+      let key = 'AIzaSyAEn0dqjwM9uYtdfpg-fZDB5oX03zwSLR4';
+      self.leafletService
+        .getPlaceSearch({
+          key: key,
+          location: {lat: e.latlng.lat, lng: e.latlng.lng},
+          radius: 50000
+        })
+        .subscribe((results: any[]) => {
+          for (let i = 0; i < results.length; i++) {
+
+            let result = results[i];
+
+            if (result.photos && result.photos.length) {
+              for (let photo of result.photos) {
+
+                if (_.find(self.mapService.photoLayer._photos._layers,
+                    {photo: {caption: photo.html_attributions[0]}})) {
+                  continue;
+                }
+
+                self.mapService.photoLayer
+                  .add([<LeafletPhotoPlugin>{
+                    lat: result.geometry.location.lat(),
+                    lng: result.geometry.location.lng(),
+                    url: photo.getUrl({maxHeight: 2000, maxWidth: 2000}),
+                    thumbnail: photo.getUrl({maxHeight: 100, maxWidth: 100}),
+                    caption: photo.html_attributions[0]
+                  }]).addTo(this.mapService.map);
+              }
+            }
+          }
+        });
+    });
+
+    this.mapService.photoLayer = L.photo.cluster().on('click', function (evt) {
+      let photo = evt.layer.photo,
+        template = '<div><img src="{url}" width="300" height="300" /></a><p>{caption}</p></div>';
+
+      evt.layer.bindPopup(L.Util.template(template, photo), {
+        className: 'leaflet-popup-photo',
+        minWidth: 300
+      }).openPopup();
     });
   }
 

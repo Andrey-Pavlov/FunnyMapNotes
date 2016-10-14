@@ -124,4 +124,7 @@ interface Global extends GlobalEnvironment  {}
 declare namespace L {
   let DomUtil: any;
   let DomEvent: any;
+  let photo: any;
+  let Util: any;
 }
+//declare var google: any;

@@ -14,7 +14,10 @@ import { AppState } from './app.service';
   encapsulation: ViewEncapsulation.None,
   styles: [
     require('./app.component.css'),
-    require('../../node_modules/leaflet/dist/leaflet.css')
+    require('../../node_modules/leaflet/dist/leaflet.css'),
+    require('../libs/leaflet/plugins/photos/Leaflet.Photo.css'),
+    require('../libs/leaflet/plugins/cluster/MarkerCluster.css'),
+    require('../libs/leaflet/plugins/cluster/MarkerCluster.Default.css')
   ],
   template: `
       <router-outlet></router-outlet>

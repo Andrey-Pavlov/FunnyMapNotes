@@ -5,6 +5,7 @@ import { Map } from 'leaflet';
 export class MapService {
   public map: Map;
   public baseMaps: any;
+  public photoLayer: any;
 
   constructor() {
     this.baseMaps = {

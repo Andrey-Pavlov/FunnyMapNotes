@@ -12,6 +12,8 @@ import { GeocodingService } from '../shared/services/geocoding.service';
 })
 export class MapComponent {
 
+  private photoLayer: any;
+
   @ViewChild(MarkerComponent) markerComponent: MarkerComponent;
 
   constructor(private mapService: MapService, private geocoder: GeocodingService) {
@@ -22,7 +24,7 @@ export class MapComponent {
       zoomControl: false,
       center: L.latLng(40.731253, -73.996139),
       zoom: 12,
-      minZoom: 4,
+//      minZoom: 4,
       maxZoom: 19,
       layers: [this.mapService.baseMaps.OpenStreetMap]
     });

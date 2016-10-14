@@ -26,7 +26,8 @@
       "webpack",
       "jquery",
       "lodash",
-      "leaflet"
+      "leaflet",
+      "googlemaps"
     ]
   },
   "exclude": [

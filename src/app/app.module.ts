@@ -1,7 +1,7 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
@@ -23,6 +23,7 @@ import { GeocodingService } from './shared/services/geocoding.service';
 import { NavigatorComponent } from './navigator/navigator.component';
 import { MarkerComponent } from './marker/marker.component';
 import { MapComponent } from './map/map.component';
+import { GooglePlacesService } from './shared/services/google-places.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -55,13 +56,15 @@ type StoreType = {
     BrowserModule,
     FormsModule,
     HttpModule,
+    JsonpModule,
     RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
     MapService,
-    GeocodingService
+    GeocodingService,
+    GooglePlacesService
   ]
 })
 export class AppModule {

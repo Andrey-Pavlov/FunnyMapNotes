@@ -5,8 +5,7 @@ const helpers = require('./helpers');
 const ghDeploy = require('./github-deploy');
 const webpackMerge = require('webpack-merge'); // used to merge webpack configs
 const ghpages = require('gh-pages');
-const webpackConfig = process.env.ENV === 'production' ? require('./webpack.prod.js') : require('./webpack.dev.js');
-
+const webpackConfig = process.env.ENV === 'production' ? require('./webpack.prod.js')({env: 'production'}) : require('./webpack.dev.js')({env: 'development'});
 
 /**
  * Webpack Constants
@@ -52,28 +51,28 @@ module.exports = webpackMerge(webpackConfig, {
 
   plugins: [
     function() {
-      this.plugin('done', function(stats) {
-        console.log('Starting deployment to GitHub.');
-
-        const logger = function (msg) {
-          console.log(msg);
-        };
-
-        const options = {
-          logger: logger,
-          remote: GIT_REMOTE_NAME,
-          message: COMMIT_MESSAGE
-        };
-
-        ghpages.publish(webpackConfig.output.path, options, function(err) {
-          if (err) {
-            console.log('GitHub deployment done. STATUS: ERROR.');
-            throw err;
-          } else {
-            console.log('GitHub deployment done. STATUS: SUCCESS.');
-          }
-        });
-      });
+      // this.plugin('done', function(stats) {
+      //   console.log('Starting deployment to GitHub.');
+      //
+      //   const logger = function (msg) {
+      //     console.log(msg);
+      //   };
+      //
+      //   const options = {
+      //     logger: logger,
+      //     remote: GIT_REMOTE_NAME,
+      //     message: COMMIT_MESSAGE
+      //   };
+      //
+      //   ghpages.publish(webpackConfig.output.path, options, function(err) {
+      //     if (err) {
+      //       console.log('GitHub deployment done. STATUS: ERROR.');
+      //       throw err;
+      //     } else {
+      //       console.log('GitHub deployment done. STATUS: SUCCESS.');
+      //     }
+      //   });
+      // });
     }
   ]
 });
